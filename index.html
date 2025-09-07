@@ -679,6 +679,84 @@
             left: 0;
         }
 
+        /* FAQ Section */
+        .faq {
+            background: var(--light);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: var(--light);
+            border: none;
+            padding: 1.5rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f9fafb;
+        }
+
+        .faq-question[aria-expanded="true"] {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .faq-question[aria-expanded="true"] .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: var(--light);
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        .faq-answer p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin: 0;
+        }
+
         /* Contact Section */
         .contact {
             background: var(--dark);
@@ -887,6 +965,15 @@
                 flex-direction: column;
                 gap: 2rem;
             }
+
+            .faq-question {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+
+            .faq-answer.active {
+                padding: 1rem;
+            }
         }
 
         /* Smooth scrolling */
@@ -941,6 +1028,7 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#expect">What to Expect</a></li>
                 <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="contact.html?focus=form" class="nav-cta">Contact Us</a></li>
             </ul>
             <button class="mobile-menu-btn">☰</button>
@@ -1109,6 +1197,126 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about our storage service</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How does the pickup and delivery process work?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We deliver empty totes directly to your door (minimum 2 totes, no maximum). Once you've filled them with your items, we pick them up and store them in our secure facility. When you need your items back, we deliver them right to your door again.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Do I need a truck or vehicle to use your service?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No trucks needed! That's the beauty of our service. We handle all transportation with our delivery vehicles. You don't need to worry about renting trucks, making trips to storage facilities, or fitting large items in your car.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Will I have to do any heavy lifting?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No lifting required on your part! Our team handles all the heavy lifting during pickup and delivery. You simply pack your items into the totes at your convenience, and we take care of the rest. No hurt backs or strain!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I know my items are secure?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We provide metal security seals for each side of every tote. Once you've packed your items and are ready for pickup, you seal both sides of the tote yourself. This ensures your tote is never opened at any point during storage, and all your items remain fully secured and tamper-proof.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What are the size and capacity of your totes?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our storage totes are 27-gallon capacity, durable, and weather-resistant. They're perfect for storing seasonal items, holiday decorations, clothing, keepsakes, and other household items. Each tote is designed to protect your belongings during transport and storage.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Is climate-controlled storage available?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Climate-controlled storage is available for an additional charge. This is perfect for items that are sensitive to temperature and humidity changes, such as electronics, artwork, photographs, documents, or delicate fabrics.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What's the minimum and maximum number of totes I can store?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The minimum is 2 totes to get started, but there's no maximum limit! Whether you need 2 totes or 20, we can accommodate your storage needs. Our pricing is simple at $10 per tote per month.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How much does the service cost?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our pricing is simple and transparent: $10 per tote per month. Initial delivery of empty totes is FREE! There's a $10 trip charge when you want your totes returned. No hidden fees, no long-term contracts.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What items can I store?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can store most household items including seasonal decorations, clothing, keepsakes, books, small furniture pieces, and personal belongings. Items should fit within the 27-gallon tote capacity. Please contact us if you have questions about specific items.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>How do I schedule pickup and delivery?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Simply call or text us at (828) 455-7793 or (855) 85-TOTES to schedule your service. You can also fill out our contact form, and we'll get back to you within 24 hours to arrange your first delivery and confirm all details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>What areas do you serve?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We provide delivery and pickup services throughout the local area. Contact us to confirm service availability in your specific location. We're always expanding our service area to better serve our customers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1237,6 +1445,42 @@ Please contact me to schedule my first delivery and confirm service details.
                 header.style.background = 'var(--dark)';
                 header.style.backdropFilter = 'none';
             }
+        });
+
+        // FAQ functionality
+        function initializeFAQ() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const faqAnswer = faqItem.querySelector('.faq-answer');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other FAQ items
+                    faqQuestions.forEach(otherQuestion => {
+                        if (otherQuestion !== this) {
+                            otherQuestion.setAttribute('aria-expanded', 'false');
+                            const otherAnswer = otherQuestion.parentElement.querySelector('.faq-answer');
+                            otherAnswer.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current FAQ item
+                    if (isExpanded) {
+                        this.setAttribute('aria-expanded', 'false');
+                        faqAnswer.classList.remove('active');
+                    } else {
+                        this.setAttribute('aria-expanded', 'true');
+                        faqAnswer.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Initialize FAQ when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFAQ();
         });
     </script>
 </body>
