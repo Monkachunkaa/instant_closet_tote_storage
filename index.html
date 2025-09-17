@@ -3,11 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional tote storage solutions delivered to your door. We provide 27-gallon storage totes with free delivery, secure metal seals, and climate-controlled options. Perfect for seasonal items, holiday decorations, and apartment living. $10 per tote per month with no long-term contracts.">
+    <meta name="theme-color" content="#F8CF1F">
+    <meta name="msapplication-TileColor" content="#F8CF1F">
+    <meta name="description" content="Professional tote storage solutions delivered to your door. $10/month per 27-gallon tote, free delivery & pickup. Perfect for apartment living & seasonal storage.">
     <title>Instant Closet Tote Storage - Convenient Storage Solutions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- LocalBusiness Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://www.instantclosettotestorage.com",
+      "name": "Instant Closet Tote Storage",
+      "description": "Professional tote storage solutions delivered to your door. 27-gallon storage totes with free delivery and pickup service.",
+      "url": "https://www.instantclosettotestorage.com",
+      "telephone": "(828) 455-7793",
+      "alternatePhone": "(855) 858-6837",
+      "email": "customerservice@instantclosettotestorage.com",
+      "priceRange": "$10 per month",
+      "currenciesAccepted": "USD",
+      "paymentAccepted": "Cash, Credit Card, Check",
+      "category": "Storage Service",
+      "serviceType": "Storage Solutions",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Catawba County, NC and surrounding areas",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "NC",
+          "addressCountry": "US"
+        }
+      },
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.7344,
+          "longitude": -81.2489
+        },
+        "geoRadius": "50000"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Storage Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tote Storage and Delivery Service",
+              "description": "27-gallon storage totes with free delivery, pickup, and secure storage",
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Instant Closet Tote Storage"
+              }
+            },
+            "price": "10",
+            "priceCurrency": "USD",
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "10",
+              "priceCurrency": "USD",
+              "unitText": "per month per tote"
+            }
+          }
+        ]
+      },
+      "offers": {
+        "@type": "Offer",
+        "name": "Tote Storage Service",
+        "description": "Professional storage service with delivery and pickup",
+        "price": "10",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2025-01-01"
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Minimum Order",
+          "value": "2 totes"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Storage Capacity",
+          "value": "27 gallons per tote"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Delivery Fee",
+          "value": "$10 trip fee"
+        }
+      ],
+      "makesOffer": {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Free Delivery and Pickup",
+          "description": "Complimentary tote delivery and pickup service"
+        },
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "slogan": "Storage Made Simple",
+      "knowsAbout": [
+        "Storage Solutions",
+        "Apartment Storage",
+        "Seasonal Storage",
+        "Holiday Decoration Storage",
+        "Tote Storage",
+        "Self Storage Alternative"
+      ]
+    }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/webp" sizes="32x32" href="images/favicon.webp">
@@ -834,6 +948,49 @@
             resize: vertical;
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .form-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .form-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--dark);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Footer */
         footer {
             background: #1f2937;
@@ -1070,6 +1227,7 @@
             <div class="hero-right">
                 <div class="hero-form">
                     <h3>Get Started Today</h3>
+                    <div id="hero-form-message"></div>
                     <form id="hero-form">
                         <div class="form-row">
                             <div class="form-group">
@@ -1089,7 +1247,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <input type="number" id="hero-totes" name="totes" min="2" placeholder="Number of Totes Needed (minimum of 2)" required>
+                            <input type="number" id="hero-tote_number" name="tote_number" min="2" placeholder="Number of Totes Needed (minimum of 2)" required>
                         </div>
                         
                         <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; padding: 0.8rem;">Get Started Today</button>
@@ -1386,6 +1544,13 @@
     </footer>
 
     <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init({
+                publicKey: '3bZXI322cqKC56DBj'
+            });
+        })();
+
         // WebP Support Detection
         function checkWebPSupport() {
             const webP = new Image();
@@ -1432,6 +1597,7 @@
 
         // Initialize scroll animations when DOM is loaded
         document.addEventListener('DOMContentLoaded', createScrollObserver);
+        
         // Mobile menu functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
@@ -1469,30 +1635,85 @@
             });
         });
 
-        // Form submission handler for hero form
+        // Show form message for hero form
+        function showHeroMessage(message, type) {
+            const messageDiv = document.getElementById('hero-form-message');
+            messageDiv.innerHTML = `<div class="form-message ${type}">${message}</div>`;
+            
+            // Clear message after 8 seconds for success, keep error messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.innerHTML = '';
+                }, 8000);
+            }
+        }
+
+        // Clear form message for hero form
+        function clearHeroMessage() {
+            document.getElementById('hero-form-message').innerHTML = '';
+        }
+
+        // Form submission handler for hero form with EmailJS
         document.querySelector('#hero-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Clear any existing messages
+            clearHeroMessage();
+            
+            // Get form elements
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Disable submit button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+            
+            // Get form data
             const formData = new FormData(this);
-            const name = formData.get('name');
-            const phone = formData.get('phone');
-            const email = formData.get('email');
-            const address = formData.get('address');
-            const totes = formData.get('totes');
             
-            // Create mailto link with form data
-            const subject = encodeURIComponent('New Service Request from ' + name);
-            const body = encodeURIComponent(`
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Address: ${address}
-Number of Totes: ${totes}
+            // Prepare template parameters matching EmailJS template
+            const templateParams = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                tote_number: formData.get('tote_number'),
+                message: 'Lead submitted from homepage hero form - no additional details provided'
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('honeybee_gmail_service', 'ICTS_lead', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    
+                    // Show success message
+                    showHeroMessage('🎉 Thank you! We\'ll contact you within 24 hours to schedule your first delivery.', 'success');
+                    
+                    // Reset form
+                    document.querySelector('#hero-form').reset();
+                    
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    
+                    // Show error message
+                    showHeroMessage('❌ Sorry, there was an error. Please call us at (828) 455-7793.', 'error');
+                })
+                .finally(function() {
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                });
+        });
 
-Please contact me to schedule my first delivery and confirm service details.
-            `);
-            
-            window.location.href = `mailto:customerservice@instantclosettotestorage.com?subject=${subject}&body=${body}`;
+        // Clear error messages when user starts typing in hero form
+        document.querySelectorAll('#hero-form input').forEach(field => {
+            field.addEventListener('input', function() {
+                const messageDiv = document.getElementById('hero-form-message');
+                const errorMessage = messageDiv.querySelector('.form-message.error');
+                if (errorMessage) {
+                    clearHeroMessage();
+                }
+            });
         });
 
         // Add scroll effect to header (maintaining dark theme)

@@ -3,11 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F8CF1F">
+    <meta name="msapplication-TileColor" content="#F8CF1F">
     <meta name="description" content="Contact Instant Closet Tote Storage for professional storage solutions. Call (828) 455-7793 or (855) 85-TOTES to schedule delivery. Fill out our contact form to get started with convenient tote storage service today.">
     <title>Contact Us - Instant Closet Tote Storage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- LocalBusiness Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://www.instantclosettotestorage.com",
+      "name": "Instant Closet Tote Storage",
+      "description": "Professional tote storage solutions delivered to your door. Contact us to get started.",
+      "url": "https://www.instantclosettotestorage.com",
+      "telephone": "(828) 455-7793",
+      "alternatePhone": "(855) 858-6837",
+      "email": "customerservice@instantclosettotestorage.com",
+      "priceRange": "$10 per month",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Catawba County, NC and surrounding areas"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "(828) 455-7793",
+        "contactType": "customer service",
+        "availableLanguage": "English"
+      }
+    }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/webp" sizes="32x32" href="images/favicon.webp">
@@ -276,6 +307,48 @@
             box-shadow: var(--shadow);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .form-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .form-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--dark);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .business-hours {
             background: var(--dark);
             color: var(--light);
@@ -388,6 +461,15 @@
                 gap: 2rem;
             }
 
+            /* Reorder grid items for mobile - form first, then contact info */
+            .contact-form-container {
+                order: 1;
+            }
+
+            .contact-info {
+                order: 2;
+            }
+
             .contact-info,
             .contact-form-container {
                 padding: 2rem;
@@ -464,6 +546,8 @@
                 <h2>Start Your Storage Service</h2>
                 <p class="form-subtitle">Fill out the form below and we'll contact you to schedule your first delivery and confirm all details.</p>
                 
+                <div id="form-message"></div>
+                
                 <form id="contact-form">
                     <div class="form-row">
                         <div class="form-group">
@@ -483,7 +567,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <input type="number" id="totes" name="totes" min="2" placeholder="Number of Totes Needed (minimum of 2) *" required>
+                        <input type="number" id="tote_number" name="tote_number" min="2" placeholder="Number of Totes Needed (minimum of 2) *" required>
                     </div>
                     
                     <div class="form-group">
@@ -530,6 +614,13 @@
     </footer>
 
     <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init({
+                publicKey: '3bZXI322cqKC56DBj'
+            });
+        })();
+
         // Mobile menu functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
@@ -586,32 +677,88 @@
         document.addEventListener('DOMContentLoaded', checkFormFocus);
         window.addEventListener('load', checkFormFocus);
 
-        // Form submission handler
+        // Show form message
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('form-message');
+            messageDiv.innerHTML = `<div class="form-message ${type}">${message}</div>`;
+            
+            // Scroll to message
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Clear message after 10 seconds for success, keep error messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.innerHTML = '';
+                }, 10000);
+            }
+        }
+
+        // Clear form message
+        function clearMessage() {
+            document.getElementById('form-message').innerHTML = '';
+        }
+
+        // Form submission handler with EmailJS
         document.querySelector('#contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Clear any existing messages
+            clearMessage();
+            
+            // Get form elements
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Disable submit button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+            
+            // Get form data
             const formData = new FormData(this);
-            const name = formData.get('name');
-            const phone = formData.get('phone');
-            const email = formData.get('email');
-            const address = formData.get('address');
-            const totes = formData.get('totes');
-            const message = formData.get('message');
             
-            // Create mailto link with form data
-            const subject = encodeURIComponent('New Service Request from ' + name);
-            const body = encodeURIComponent(`
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Address: ${address}
-Number of Totes: ${totes}
-Items to Store: ${message}
+            // Prepare template parameters matching your EmailJS template
+            const templateParams = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                tote_number: formData.get('tote_number'),
+                message: formData.get('message') || 'No additional details provided'
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('honeybee_gmail_service', 'ICTS_lead', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    
+                    // Show success message
+                    showMessage('🎉 Thank you! Your request has been submitted successfully. We\'ll contact you within 24 hours to schedule your first delivery.', 'success');
+                    
+                    // Reset form
+                    document.querySelector('#contact-form').reset();
+                    
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    
+                    // Show error message
+                    showMessage('❌ Sorry, there was an error sending your message. Please try again or contact us directly at (828) 455-7793.', 'error');
+                })
+                .finally(function() {
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                });
+        });
 
-Please contact me to schedule my first delivery and confirm service details.
-            `);
-            
-            window.location.href = `mailto:customerservice@instantclosettotestorage.com?subject=${subject}&body=${body}`;
+        // Clear error messages when user starts typing
+        document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                const messageDiv = document.getElementById('form-message');
+                const errorMessage = messageDiv.querySelector('.form-message.error');
+                if (errorMessage) {
+                    clearMessage();
+                }
+            });
         });
     </script>
 </body>
